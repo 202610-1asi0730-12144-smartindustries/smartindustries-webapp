@@ -5,7 +5,7 @@ const menuItems = [
   { label: 'Devices',       icon: 'pi pi-desktop',     to: '/operations/devices' },
   { label: 'Sites',         icon: 'pi pi-building',       to: '/operations/sites' },
   { label: 'Groups',        icon: 'pi pi-folder',      to: '/operations/groups' },
-  { label: 'Events',        icon: 'pi pi-calendar',    to: '/operations/events' },
+  { label: 'Events',        icon: 'pi pi-history',    to: '/operations/events' },
   { label: 'Alerts',        icon: 'pi pi-bell',        to: '/operations/alerts' },
   { label: 'Administrators', icon: 'pi pi-shield',     to: '/operations/administrators' },
   { label: 'Roles',          icon: 'pi pi-tag',        to: '/operations/roles' },
