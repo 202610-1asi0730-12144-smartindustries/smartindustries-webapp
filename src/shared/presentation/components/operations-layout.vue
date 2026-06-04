@@ -1,11 +1,11 @@
 <script setup>
 const menuItems = [
   { label: 'Dashboard',     icon: 'pi pi-chart-pie',   to: '/operations/dashboard' },
-  { label: 'People',        icon: 'pi pi-users',       to: '/operations/users' },
+  { label: 'People',        icon: 'pi pi-users',       to: '/operations/people' },
   { label: 'Devices',       icon: 'pi pi-desktop',     to: '/operations/devices' },
   { label: 'Sites',         icon: 'pi pi-building',       to: '/operations/sites' },
-  { label: 'Groups',        icon: 'pi pi-folder',      to: '/operations/groups' },
-  { label: 'Events',        icon: 'pi pi-history',    to: '/operations/events' },
+  { label: 'Groups',        icon: 'pi pi-folder',      to: '/operations/access-groups' },
+  { label: 'Events',        icon: 'pi pi-history',    to: '/operations/access-events' },
   { label: 'Alerts',        icon: 'pi pi-bell',        to: '/operations/alerts' },
   { label: 'Administrators', icon: 'pi pi-shield',     to: '/operations/administrators' },
   { label: 'Roles',          icon: 'pi pi-tag',        to: '/operations/roles' },
@@ -15,10 +15,21 @@ const menuItems = [
 <template>
   <div class="operations-layout">
     <aside class="sidebar">
-      <pv-menu :model="menuItems" />
+      <nav class="sidebar-nav">
+        <router-link
+          v-for="item in menuItems"
+          :key="item.label"
+          :to="item.to"
+          class="menu-item"
+          active-class="menu-item-active"
+        >
+          <i :class="item.icon" />
+          <span>{{ item.label }}</span>
+        </router-link>
+      </nav>
     </aside>
     <main class="content">
-      <slot />
+      <router-view/>
     </main>
   </div>
 </template>
@@ -34,14 +45,39 @@ const menuItems = [
   flex-direction: column;
   width: 250px;
   overflow-y: auto;
+  border-right: 1px solid #d0d0d0;
 }
 
-.sidebar :deep(.p-menu) {
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
   flex: 1;
+  padding: 0.5rem 0;
 }
 
-.content {
-  flex: 1;
-  padding: 1.5rem;
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  color: var(--p-text-muted-color);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.menu-item:hover {
+  background: var(--p-surface-hover);
+}
+
+.menu-item i {
+  font-size: 1.25rem;
+}
+
+.menu-item-active,
+.menu-item-active:hover {
+  background: var(--p-primary-color);
+  color: var(--p-primary-contrast-color);
+  font-weight: 600;
 }
 </style>
