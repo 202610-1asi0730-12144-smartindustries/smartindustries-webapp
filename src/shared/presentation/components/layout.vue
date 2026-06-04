@@ -1,21 +1,29 @@
 <script setup>
-import Button from 'primevue/button'
+import LanguageSwitcher from "./language-switcher.vue";
 </script>
 
 <template>
-  <div class="topbar flex align-items-center justify-content-between px-3">
-    <span class="text-xl font-bold">SmartLock</span>
-    <Button icon="pi pi-user" rounded text />
-  </div>
+  <pv-menubar>
+    <template #start>
+      <span class="text-2xl font-bold mx-3">SmartLock</span>
+    </template>
+    <template #end>
+      <language-switcher class="mr-3"/>
+      <pv-button icon="pi pi-user" rounded text />
+    </template>
+  </pv-menubar>
 </template>
 
 <style scoped>
-.topbar {
-  height: 4rem;
+.p-menubar {
   background: #3893DD;
+  height: 4rem;
+  padding: 0 1rem;
+  border: none;
+  border-radius: 0;
 }
 
-.topbar .p-button {
+.p-menubar :deep(.p-button) {
   color: #ffffff;
 }
 </style>
