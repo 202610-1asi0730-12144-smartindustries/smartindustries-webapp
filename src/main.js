@@ -42,7 +42,7 @@ import i18n from "./i18n.js";
 // noinspection JSCheckFunctionSignatures
 createApp(App)
     .use(i18n)
-    .use(PrimeVue, {theme: { preset: Material}, ripple: true})
+    .use(PrimeVue, {theme: { preset: Material, options: { darkModeSelector: false }}, ripple: true})
     .use(ConfirmationService)
     .use(DialogService)
     .use(ToastService)

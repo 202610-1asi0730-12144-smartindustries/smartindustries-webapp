@@ -5,13 +5,14 @@ import LanguageSwitcher from "./language-switcher.vue";
 <template>
   <pv-menubar>
     <template #start>
-      <span class="text-2xl font-bold mx-3">SmartLock</span>
+      <span class="text-2xl font-bold mx-3" style="color: #fff">SmartLock</span>
     </template>
     <template #end>
       <language-switcher class="mr-3"/>
       <pv-button icon="pi pi-user" rounded text />
     </template>
   </pv-menubar>
+  <router-view/>
 </template>
 
 <style scoped>
