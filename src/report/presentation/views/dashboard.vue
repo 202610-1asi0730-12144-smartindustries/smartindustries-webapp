@@ -24,6 +24,13 @@ const alerts = [
   { person: 'Frank Torres', location: 'Building B', status: 'Acknowledged' },
   { person: 'Grace Lee', location: 'Building A', status: 'Resolved' },
 ]
+const devices = [
+  { id: 1, name: 'LOCK-002', site: 'Warehouse' },
+  { id: 2, name: 'LOCK-004', site: 'Building A' },
+  { id: 3, name: 'LOCK-005', site: 'Remote' },
+  { id: 4, name: 'LOCK-007', site: 'Building B' },
+  { id: 5, name: 'LOCK-009', site: 'Building A' },
+]
 </script>
 
 <template>
@@ -62,6 +69,11 @@ const alerts = [
         </div>
         <div class="right-row">
           <h3>Offline devices</h3>
+          <pv-data-table :value="devices" scrollable scrollHeight="190px" style="width: 100%">
+            <pv-column field="id" header="ID" />
+            <pv-column field="name" header="Name" />
+            <pv-column field="site" header="Site" />
+          </pv-data-table>
         </div>
         <div class="right-row">
           <h3>More information (Today)</h3>
