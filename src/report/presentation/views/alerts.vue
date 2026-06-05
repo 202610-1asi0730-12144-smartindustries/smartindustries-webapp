@@ -6,6 +6,14 @@ const site = ref('All')
 const status = ref('All')
 const siteOptions = ['All', 'Building A', 'Building B', 'Warehouse', 'Remote']
 const statusOptions = ['All', 'New', 'Acknowledged', 'Resolved']
+const alerts = [
+  { id: 1, location: 'Building A', person: 'Alice Johnson', status: 'New' },
+  { id: 2, location: 'Warehouse', person: 'Bob Chen', status: 'Acknowledged' },
+  { id: 3, location: 'Building B', person: 'Carol Martinez', status: 'Resolved' },
+  { id: 4, location: 'Building A', person: 'Dave Kim', status: 'New' },
+  { id: 5, location: 'Remote', person: 'Eve Davis', status: 'Acknowledged' },
+  { id: 6, location: 'Building B', person: 'Frank Torres', status: 'New' },
+]
 </script>
 
 <template>
@@ -22,6 +30,21 @@ const statusOptions = ['All', 'New', 'Acknowledged', 'Resolved']
         <pv-select v-model="status" :options="statusOptions" placeholder="Status" inputId="status-select" />
       </div>
     </div>
+    <pv-data-table :value="alerts" stripedRows style="width: 100%">
+      <pv-column field="id" header="ID" />
+      <pv-column field="location" header="Location" />
+      <pv-column field="person" header="Person" />
+      <pv-column field="status" header="Status">
+        <template #body="{ data }">
+          <pv-tag :value="data.status" />
+        </template>
+      </pv-column>
+      <pv-column header="" style="width: 4rem">
+        <template #body>
+          <pv-button icon="pi pi-ellipsis-v" rounded text plain />
+        </template>
+      </pv-column>
+    </pv-data-table>
   </div>
 </template>
 
@@ -39,5 +62,9 @@ const statusOptions = ['All', 'New', 'Acknowledged', 'Resolved']
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+.alerts-view :deep(.p-datatable) {
+  width: 100%;
+  margin-top: 1rem;
 }
 </style>
