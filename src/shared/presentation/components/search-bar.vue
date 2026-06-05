@@ -10,10 +10,6 @@
 </template>
 
 <style scoped>
-.search-bar {
-  width: 100%;
-  max-width: 400px;
-}
 .search-bar :deep(.p-inputtext) {
   border-radius: 999px;
   background: #f5f5f5;

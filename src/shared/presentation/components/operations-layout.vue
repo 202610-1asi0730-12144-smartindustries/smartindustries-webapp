@@ -71,6 +71,11 @@ const menuItems = [
   font-size: 1.25rem;
 }
 
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
 .menu-item-active,
 .menu-item-active:hover {
   background: var(--p-primary-color);
