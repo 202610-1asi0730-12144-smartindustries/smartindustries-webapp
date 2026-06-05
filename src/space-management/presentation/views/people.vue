@@ -13,8 +13,14 @@ const locationOptions = ['All', 'Building A', 'Building B', 'Warehouse', 'Remote
     <h1>People</h1>
     <div class="filter-bar">
       <search-bar/>
-      <pv-select v-model="status" :options="statusOptions" placeholder="Status" />
-      <pv-select v-model="location" :options="locationOptions" placeholder="Current location" />
+      <div class="filter-group">
+        <label for="status-select">Status</label>
+        <pv-select v-model="status" :options="statusOptions" placeholder="Status" inputId="status-select" />
+      </div>
+      <div class="filter-group">
+        <label for="location-select">Location</label>
+        <pv-select v-model="location" :options="locationOptions" placeholder="Current location" inputId="location-select" />
+      </div>
     </div>
   </div>
 </template>
@@ -26,7 +32,12 @@ const locationOptions = ['All', 'Building A', 'Building B', 'Warehouse', 'Remote
 .filter-bar {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 2rem;
   margin-bottom: 1rem;
+}
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 </style>
