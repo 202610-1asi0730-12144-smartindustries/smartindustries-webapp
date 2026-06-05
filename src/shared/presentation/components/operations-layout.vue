@@ -78,8 +78,8 @@ const menuItems = [
 
 .menu-item-active,
 .menu-item-active:hover {
-  background: var(--p-primary-color);
-  color: var(--p-primary-contrast-color);
+  background: #f0f0f0;
+  color: inherit;
   font-weight: 600;
 }
 </style>
