@@ -1,3 +1,10 @@
 {
-
+  "organizations": [
+    { "id": 1, "name": "Acme Corp", "owner": "Alice Johnson", "description": "Main office building with 24/7 access control" },
+    { "id": 2, "name": "Beta Labs", "owner": "Bob Chen", "description": "Research facility with restricted zone access" },
+    { "id": 3, "name": "Gamma Inc", "owner": "Carol Martinez", "description": "Warehouse and logistics center" },
+    { "id": 4, "name": "Delta Systems", "owner": "Dave Kim", "description": "Data center with multi-factor authentication" },
+    { "id": 5, "name": "Eagle Solutions", "owner": "Eve Davis", "description": "Co-working space with shared amenities" },
+    { "id": 6, "name": "Phoenix Tech", "owner": "Frank Torres", "description": "Headquarters with executive floor security" }
+  ]
 }
