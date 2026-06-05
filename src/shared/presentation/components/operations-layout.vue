@@ -66,9 +66,6 @@ const menuItems = [
   font-size: 0.875rem;
 }
 
-.menu-item:hover {
-  background: var(--p-surface-hover);
-}
 
 .menu-item i {
   font-size: 1.25rem;
