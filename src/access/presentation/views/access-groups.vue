@@ -1,11 +1,24 @@
 <script setup>
-
+import searchBar from "../../../shared/presentation/components/search-bar.vue";
 </script>
 
 <template>
-  <h1>Groups</h1>
+  <div class="groups-view">
+    <h1>Groups</h1>
+    <div class="filter-bar">
+      <search-bar/>
+    </div>
+  </div>
 </template>
 
 <style scoped>
-
+.groups-view {
+  padding: 0.5rem 3rem;
+}
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
 </style>
