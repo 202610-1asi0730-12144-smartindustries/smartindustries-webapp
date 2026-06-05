@@ -3,6 +3,18 @@ import { ref } from "vue"
 
 const site = ref('All')
 const siteOptions = ['All', 'Building A', 'Building B', 'Warehouse', 'Remote']
+const attempts = [
+  { person: 'Alice Johnson', deviceId: 'LOCK-001', status: 'Granted' },
+  { person: 'Bob Chen', deviceId: 'LOCK-003', status: 'Denied' },
+  { person: 'Carol Martinez', deviceId: 'LOCK-002', status: 'Granted' },
+  { person: 'Dave Kim', deviceId: 'LOCK-005', status: 'Granted' },
+  { person: 'Eve Davis', deviceId: 'LOCK-004', status: 'Pending' },
+  { person: 'Frank Torres', deviceId: 'LOCK-006', status: 'Denied' },
+  { person: 'Grace Lee', deviceId: 'LOCK-001', status: 'Granted' },
+  { person: 'Henry Wu', deviceId: 'LOCK-002', status: 'Granted' },
+  { person: 'Ivy Park', deviceId: 'LOCK-004', status: 'Denied' },
+  { person: 'Jack Smith', deviceId: 'LOCK-003', status: 'Pending' },
+]
 </script>
 
 <template>
@@ -15,7 +27,16 @@ const siteOptions = ['All', 'Building A', 'Building B', 'Warehouse', 'Remote']
     </div>
     <div class="dashboard-grid">
       <div class="left-panel">
-        <h3>Recent access attempts</h3>
+        <h3>Recent access events</h3>
+        <pv-data-table :value="attempts" scrollable scrollHeight="720px" style="width: 100%">
+          <pv-column field="person" header="Person" />
+          <pv-column field="deviceId" header="Device ID" />
+          <pv-column field="status" header="Status">
+            <template #body="{ data }">
+              <pv-tag :value="data.status" />
+            </template>
+          </pv-column>
+        </pv-data-table>
       </div>
       <div class="right-panel">
         <div class="right-row">
