@@ -77,6 +77,20 @@ const devices = [
         </div>
         <div class="right-row">
           <h3>More information (Today)</h3>
+          <div class="stats">
+            <div class="stat">
+              <span class="stat-number">42</span>
+              <span class="stat-label">People on site</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">1,284</span>
+              <span class="stat-label">Accepted attempts</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">87</span>
+              <span class="stat-label">Rejected attempts</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -118,8 +132,31 @@ const devices = [
   gap: 1rem;
 }
 .right-row {
+  display: flex;
+  flex-direction: column;
   padding: 0.1rem 1.5rem;
   border: 1px solid #d0d0d0;
   border-radius: 8px;
+}
+.stats {
+  display: flex;
+  height: 60%;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.stat {
+  flex: 1;
+  text-align: center;
+}
+.stat-number {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+.stat-label {
+  display: block;
+  font-size: 0.875rem;
+  color: #888;
 }
 </style>
