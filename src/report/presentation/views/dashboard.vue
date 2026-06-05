@@ -15,6 +15,15 @@ const attempts = [
   { person: 'Ivy Park', deviceId: 'LOCK-004', status: 'Denied' },
   { person: 'Jack Smith', deviceId: 'LOCK-003', status: 'Pending' },
 ]
+const alerts = [
+  { person: 'Alice Johnson', location: 'Building A', status: 'New' },
+  { person: 'Bob Chen', location: 'Warehouse', status: 'Acknowledged' },
+  { person: 'Carol Martinez', location: 'Building B', status: 'Resolved' },
+  { person: 'Dave Kim', location: 'Building A', status: 'New' },
+  { person: 'Eve Davis', location: 'Remote', status: 'New' },
+  { person: 'Frank Torres', location: 'Building B', status: 'Acknowledged' },
+  { person: 'Grace Lee', location: 'Building A', status: 'Resolved' },
+]
 </script>
 
 <template>
@@ -41,6 +50,15 @@ const attempts = [
       <div class="right-panel">
         <div class="right-row">
           <h3>Recent alerts</h3>
+          <pv-data-table :value="alerts" scrollable scrollHeight="180px" style="width: 100%">
+            <pv-column field="person" header="Person" />
+            <pv-column field="location" header="Location" />
+            <pv-column field="status" header="Status">
+              <template #body="{ data }">
+                <pv-tag :value="data.status" />
+              </template>
+            </pv-column>
+          </pv-data-table>
         </div>
         <div class="right-row">
           <h3>Offline devices</h3>
