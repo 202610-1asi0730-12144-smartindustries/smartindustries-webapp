@@ -50,7 +50,7 @@ const alerts = [
       <div class="right-panel">
         <div class="right-row">
           <h3>Recent alerts</h3>
-          <pv-data-table :value="alerts" scrollable scrollHeight="180px" style="width: 100%">
+          <pv-data-table :value="alerts" scrollable scrollHeight="190px" style="width: 100%">
             <pv-column field="person" header="Person" />
             <pv-column field="location" header="Location" />
             <pv-column field="status" header="Status">
@@ -102,7 +102,7 @@ const alerts = [
 }
 .right-panel {
   display: grid;
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-rows: 3.5fr 3.5fr 3fr;
   gap: 1rem;
 }
 .right-row {
