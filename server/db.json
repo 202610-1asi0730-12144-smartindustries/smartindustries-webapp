@@ -50,5 +50,13 @@
     { "id": 4, "location": "Building A", "person": "Dave Kim", "status": "New" },
     { "id": 5, "location": "Remote", "person": "Eve Davis", "status": "Acknowledged" },
     { "id": 6, "location": "Building B", "person": "Frank Torres", "status": "New" }
+  ],
+  "administrators": [
+    { "id": 1, "name": "Alice Johnson", "role": "Super Admin", "status": "Accepted" },
+    { "id": 2, "name": "Bob Chen", "role": "Admin", "status": "Accepted" },
+    { "id": 3, "name": "Carol Martinez", "role": "Manager", "status": "Pending" },
+    { "id": 4, "name": "Dave Kim", "role": "Admin", "status": "Accepted" },
+    { "id": 5, "name": "Eve Davis", "role": "Manager", "status": "Pending" },
+    { "id": 6, "name": "Frank Torres", "role": "Super Admin", "status": "Accepted" }
   ]
 }
