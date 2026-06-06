@@ -22,5 +22,11 @@
     { "id": 4, "name": "LOCK-004", "mode": "Free", "status": "Online", "site": "Building A" },
     { "id": 5, "name": "LOCK-005", "mode": "Blocked", "status": "Offline", "site": "Remote" },
     { "id": 6, "name": "LOCK-006", "mode": "Security", "status": "Online", "site": "Building B" }
+  ],
+  "sites": [
+    { "id": 1, "name": "Building A" },
+    { "id": 2, "name": "Building B" },
+    { "id": 3, "name": "Warehouse" },
+    { "id": 4, "name": "Remote" }
   ]
 }
