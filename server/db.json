@@ -6,5 +6,13 @@
     { "id": 4, "name": "Delta Systems", "owner": "Dave Kim", "description": "Data center with multi-factor authentication" },
     { "id": 5, "name": "Eagle Solutions", "owner": "Eve Davis", "description": "Co-working space with shared amenities" },
     { "id": 6, "name": "Phoenix Tech", "owner": "Frank Torres", "description": "Headquarters with executive floor security" }
+  ],
+  "people": [
+    { "id": 1, "name": "Alice Johnson", "currentLocation": "Building A", "status": "Active" },
+    { "id": 2, "name": "Bob Chen", "currentLocation": "Warehouse", "status": "Active" },
+    { "id": 3, "name": "Carol Martinez", "currentLocation": "Remote", "status": "Inactive" },
+    { "id": 4, "name": "Dave Kim", "currentLocation": "Building B", "status": "Active" },
+    { "id": 5, "name": "Eve Davis", "currentLocation": "Building A", "status": "Pending" },
+    { "id": 6, "name": "Frank Torres", "currentLocation": "Remote", "status": "Active" }
   ]
 }
