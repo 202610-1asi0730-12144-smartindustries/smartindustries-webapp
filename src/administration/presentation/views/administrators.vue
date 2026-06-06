@@ -1,19 +1,23 @@
 <script setup>
-import searchBar from "../../../shared/presentation/components/search-bar.vue";
+import useAdministrationStore from "../../../administration/application/administration.store.js";
+import {onMounted, toRefs} from "vue"
 import { ref } from "vue"
+import searchBar from "../../../shared/presentation/components/search-bar.vue";
+
+const administrationStore = useAdministrationStore();
+const {administrators, administratorsLoaded} = toRefs(administrationStore);
+const {fetchAdministrators} = administrationStore;
+
+onMounted(() => {
+  if(!administrationStore.administratorsLoaded) {
+    fetchAdministrators();
+  }
+})
 
 const role = ref('All')
 const status = ref('All')
 const roleOptions = ['All', 'Super Admin', 'Admin', 'Manager']
 const statusOptions = ['All', 'Accepted', 'Pending']
-const admins = [
-  { id: 1, name: 'Alice Johnson', role: 'Super Admin', status: 'Accepted' },
-  { id: 2, name: 'Bob Chen', role: 'Admin', status: 'Accepted' },
-  { id: 3, name: 'Carol Martinez', role: 'Manager', status: 'Pending' },
-  { id: 4, name: 'Dave Kim', role: 'Admin', status: 'Accepted' },
-  { id: 5, name: 'Eve Davis', role: 'Manager', status: 'Pending' },
-  { id: 6, name: 'Frank Torres', role: 'Super Admin', status: 'Accepted' },
-]
 </script>
 
 <template>
@@ -30,7 +34,7 @@ const admins = [
         <pv-select v-model="status" :options="statusOptions" placeholder="Status" inputId="status-select" />
       </div>
     </div>
-    <pv-data-table :value="admins" stripedRows style="width: 100%">
+    <pv-data-table :value="administrators" stripedRows style="width: 100%">
       <pv-column field="id" header="ID" />
       <pv-column field="name" header="Name" />
       <pv-column field="role" header="Role" />
