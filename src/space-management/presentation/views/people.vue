@@ -1,19 +1,23 @@
 <script setup>
+import useSpaceManagementStore from "../../../space-management/application/space-management.store.js";
+import {onMounted, toRefs} from "vue"
 import { ref } from "vue"
 import searchBar from "../../../shared/presentation/components/search-bar.vue";
 
-const status = ref('All')
-const location = ref('All')
-const statusOptions = ['All', 'Active', 'Inactive', 'Pending']
-const locationOptions = ['All', 'Building A', 'Building B', 'Warehouse', 'Remote']
-const people = [
-  { id: 1, name: 'Alice Johnson', currentLocation: 'Building A', status: 'Active' },
-  { id: 2, name: 'Bob Chen', currentLocation: 'Warehouse', status: 'Active' },
-  { id: 3, name: 'Carol Martinez', currentLocation: 'Remote', status: 'Inactive' },
-  { id: 4, name: 'Dave Kim', currentLocation: 'Building B', status: 'Active' },
-  { id: 5, name: 'Eve Davis', currentLocation: 'Building A', status: 'Pending' },
-  { id: 6, name: 'Frank Torres', currentLocation: 'Remote', status: 'Active' },
-]
+  const spaceManagementStore = useSpaceManagementStore();
+  const {people, peopleLoaded} = toRefs(spaceManagementStore);
+  const {fetchPeople} = spaceManagementStore;
+
+  onMounted(() => {
+    if(!spaceManagementStore.peopleLoaded) {
+      fetchPeople();
+    }
+  })
+
+  const status = ref('All')
+  const location = ref('All')
+  const statusOptions = ['All', 'Active', 'Inactive', 'Pending']
+  const locationOptions = ['All', 'Building A', 'Building B', 'Warehouse', 'Remote']
 </script>
 
 <template>
