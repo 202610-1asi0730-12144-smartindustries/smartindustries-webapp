@@ -58,5 +58,11 @@
     { "id": 4, "name": "Dave Kim", "role": "Admin", "status": "Accepted" },
     { "id": 5, "name": "Eve Davis", "role": "Manager", "status": "Pending" },
     { "id": 6, "name": "Frank Torres", "role": "Super Admin", "status": "Accepted" }
+  ],
+  "roles": [
+    { "id": 1, "name": "Super Admin" },
+    { "id": 2, "name": "Admin" },
+    { "id": 3, "name": "Manager" },
+    { "id": 4, "name": "Operator" }
   ]
 }
