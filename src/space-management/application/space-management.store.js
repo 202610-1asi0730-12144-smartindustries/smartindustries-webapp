@@ -4,6 +4,7 @@ import {ref} from "vue";
 import {OrganizationAssembler} from "../infrastructure/organization.assembler.js";
 import {PersonAssembler} from "../infrastructure/person.assembler.js";
 import {DeviceAssembler} from "../infrastructure/device.assembler.js";
+import {SiteAssembler} from "../infrastructure/site.assembler.js";
 
 const spaceManagementApi = new SpaceManagementApi();
 
@@ -13,8 +14,12 @@ const useSpaceManagementStore = defineStore('space-management', () => {
 
     const people = ref([]);
     const peopleLoaded = ref(false);
+
     const devices = ref([]);
     const devicesLoaded = ref(false);
+
+    const sites = ref([]);
+    const sitesLoaded = ref(false);
 
     const errors = ref([]);
 
@@ -48,6 +53,15 @@ const useSpaceManagementStore = defineStore('space-management', () => {
         });
     }
 
+    function fetchSites() {
+        spaceManagementApi.getSites().then(response => {
+            sites.value = SiteAssembler.toEntitiesFromResponse(response);
+            sitesLoaded.value = true;
+        }).catch(error => {
+            errors.value.push(error);
+        });
+    }
+
     return {
         organizations,
         organizationsLoaded,
@@ -55,10 +69,13 @@ const useSpaceManagementStore = defineStore('space-management', () => {
         peopleLoaded,
         devices,
         devicesLoaded,
+        sites,
+        sitesLoaded,
         errors,
         fetchOrganizations,
         fetchPeople,
         fetchDevices,
+        fetchSites,
     }
 })
 
