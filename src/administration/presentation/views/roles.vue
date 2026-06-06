@@ -1,12 +1,17 @@
 <script setup>
+import useAdministrationStore from "../../../administration/application/administration.store.js";
+import {onMounted, toRefs} from "vue"
 import searchBar from "../../../shared/presentation/components/search-bar.vue";
 
-const roles = [
-  { id: 1, name: 'Super Admin' },
-  { id: 2, name: 'Admin' },
-  { id: 3, name: 'Manager' },
-  { id: 4, name: 'Operator' },
-]
+  const administrationStore = useAdministrationStore();
+  const {roles, rolesLoaded} = toRefs(administrationStore);
+  const {fetchRoles} = administrationStore;
+
+  onMounted(() => {
+    if(!administrationStore.rolesLoaded) {
+      fetchRoles();
+    }
+  })
 </script>
 
 <template>
