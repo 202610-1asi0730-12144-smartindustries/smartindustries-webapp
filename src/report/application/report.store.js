@@ -9,7 +9,7 @@ const reportApi = new ReportApi();
 const useReportStore = defineStore('report', () => {
     const accessEvents = ref([]);
     const accessEventsLoaded = ref(false);
-    
+
     const alerts = ref([]);
     const alertsLoaded = ref(false);
 
