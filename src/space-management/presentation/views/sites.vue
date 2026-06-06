@@ -1,13 +1,17 @@
 <script setup>
+import useSpaceManagementStore from "../../../space-management/application/space-management.store.js";
+import {onMounted, toRefs} from "vue"
 import searchBar from "../../../shared/presentation/components/search-bar.vue";
-import { ref } from "vue"
 
-const sites = [
-  { id: 1, name: 'Building A' },
-  { id: 2, name: 'Building B' },
-  { id: 3, name: 'Warehouse' },
-  { id: 4, name: 'Remote' },
-]
+const spaceManagementStore = useSpaceManagementStore();
+const {sites, sitesLoaded} = toRefs(spaceManagementStore);
+const {fetchSites} = spaceManagementStore;
+
+onMounted(() => {
+  if(!spaceManagementStore.sitesLoaded) {
+    fetchSites();
+  }
+})
 </script>
 
 <template>

@@ -57,6 +57,7 @@ const useSpaceManagementStore = defineStore('space-management', () => {
         spaceManagementApi.getSites().then(response => {
             sites.value = SiteAssembler.toEntitiesFromResponse(response);
             sitesLoaded.value = true;
+            console.log(sitesLoaded.value);
         }).catch(error => {
             errors.value.push(error);
         });
