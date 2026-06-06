@@ -1,6 +1,18 @@
 <script setup>
-import searchBar from "../../../shared/presentation/components/search-bar.vue";
+import useSpaceManagementStore from "../../../space-management/application/space-management.store.js";
+import {onMounted, toRefs} from "vue"
 import { ref } from "vue"
+import searchBar from "../../../shared/presentation/components/search-bar.vue";
+
+const spaceManagementStore = useSpaceManagementStore();
+const {devices, devicesLoaded} = toRefs(spaceManagementStore);
+const {fetchDevices} = spaceManagementStore;
+
+onMounted(() => {
+  if(!spaceManagementStore.devicesLoaded) {
+    fetchDevices();
+  }
+})
 
 const mode = ref('All')
 const status = ref('All')
@@ -8,14 +20,6 @@ const site = ref('All')
 const modeOptions = ['All', 'Blocked', 'Free', 'Security']
 const statusOptions = ['All', 'Online', 'Offline']
 const siteOptions = ['All', 'Building A', 'Building B', 'Warehouse', 'Remote']
-const devices = [
-  { id: 1, name: 'Lock-001', mode: 'Free', status: 'Online', site: 'Building A' },
-  { id: 2, name: 'Lock-002', mode: 'Blocked', status: 'Offline', site: 'Warehouse' },
-  { id: 3, name: 'Lock-003', mode: 'Security', status: 'Online', site: 'Building B' },
-  { id: 4, name: 'Lock-004', mode: 'Free', status: 'Online', site: 'Building A' },
-  { id: 5, name: 'Lock-005', mode: 'Blocked', status: 'Offline', site: 'Remote' },
-  { id: 6, name: 'Lock-006', mode: 'Security', status: 'Online', site: 'Building B' },
-]
 </script>
 
 <template>
