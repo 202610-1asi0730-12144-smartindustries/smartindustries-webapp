@@ -14,5 +14,13 @@
     { "id": 4, "name": "Dave Kim", "currentLocation": "Building B", "status": "Active" },
     { "id": 5, "name": "Eve Davis", "currentLocation": "Building A", "status": "Pending" },
     { "id": 6, "name": "Frank Torres", "currentLocation": "Remote", "status": "Active" }
+  ],
+  "devices": [
+    { "id": 1, "name": "LOCK-001", "mode": "Free", "status": "Online", "site": "Building A" },
+    { "id": 2, "name": "LOCK-002", "mode": "Blocked", "status": "Offline", "site": "Warehouse" },
+    { "id": 3, "name": "LOCK-003", "mode": "Security", "status": "Online", "site": "Building B" },
+    { "id": 4, "name": "LOCK-004", "mode": "Free", "status": "Online", "site": "Building A" },
+    { "id": 5, "name": "LOCK-005", "mode": "Blocked", "status": "Offline", "site": "Remote" },
+    { "id": 6, "name": "LOCK-006", "mode": "Security", "status": "Online", "site": "Building B" }
   ]
 }
