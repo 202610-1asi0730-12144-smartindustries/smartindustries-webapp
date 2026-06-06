@@ -1,12 +1,17 @@
 <script setup>
-const organizations = [
-  { name: 'Acme Corp', owner: 'Alice Johnson', description: 'Main office building with 24/7 access control' },
-  { name: 'Beta Labs', owner: 'Bob Chen', description: 'Research facility with restricted zone access' },
-  { name: 'Gamma Inc', owner: 'Carol Martinez', description: 'Warehouse and logistics center' },
-  { name: 'Delta Systems', owner: 'Dave Kim', description: 'Data center with multi-factor authentication' },
-  { name: 'Eagle Solutions', owner: 'Eve Davis', description: 'Co-working space with shared amenities' },
-  { name: 'Phoenix Tech', owner: 'Frank Torres', description: 'Headquarters with executive floor security' },
-]
+  import useSpaceManagementStore from "../../../space-management/application/space-management.store.js";
+  import {onMounted, toRefs} from "vue";
+
+  const spaceManagementStore = useSpaceManagementStore();
+  const {organizations, organizationsLoaded} = toRefs(spaceManagementStore);
+  const {fetchOrganizations} = spaceManagementStore;
+
+  onMounted(() => {
+    if(!spaceManagementStore.organizationsLoaded) {
+      fetchOrganizations();
+      organizationsLoaded.value = spaceManagementStore.organizationsLoaded;
+    }
+  })
 </script>
 
 <template>

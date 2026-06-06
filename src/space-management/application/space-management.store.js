@@ -23,6 +23,11 @@ const useSpaceManagementStore = defineStore('space-management', () => {
     }
 
     return {
-        organizations
+        organizations,
+        organizationsLoaded,
+        errors,
+        fetchOrganizations
     }
 })
+
+export default useSpaceManagementStore;
