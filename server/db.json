@@ -28,5 +28,11 @@
     { "id": 2, "name": "Building B" },
     { "id": 3, "name": "Warehouse" },
     { "id": 4, "name": "Remote" }
+  ],
+  "access-groups": [
+    { "id": 1, "name": "Administrators" },
+    { "id": 2, "name": "Security Personnel" },
+    { "id": 3, "name": "Maintenance Staff" },
+    { "id": 4, "name": "Executive Floor" }
   ]
 }
