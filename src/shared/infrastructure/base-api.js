@@ -1,4 +1,5 @@
 import axios from "axios";
+import { authInterceptor } from "./auth.interceptor.js";
 
 const platformApi = import.meta.env.VITE_SMARTLOCK_API_URL;
 
@@ -26,8 +27,7 @@ export class BaseApi {
                 'Access-Control-Allow-Origin': '*'
             },
         });
-        // Add interceptors for request/response if needed
-        //this.#http.interceptors.request.use(iamInterceptor);
+        this.#http.interceptors.request.use(authInterceptor);
     }
 
     /**

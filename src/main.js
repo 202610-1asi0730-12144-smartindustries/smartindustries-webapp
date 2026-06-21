@@ -20,8 +20,10 @@ import {
   InputIcon,
   InputNumber,
   InputText,
+  Message,
   Menubar,
   Menu,
+  Password,
   Rating,
   Row,
   Select,
@@ -61,6 +63,8 @@ createApp(App)
     .component('pv-input-icon',     InputIcon)
     .component('pv-input-text',     InputText)
     .component('pv-input-number',   InputNumber)
+    .component('pv-message',       Message)
+    .component('pv-password',      Password)
     .component('pv-menubar',        Menubar)
     .component('pv-menu',           Menu)
     .component('pv-rating',         Rating)

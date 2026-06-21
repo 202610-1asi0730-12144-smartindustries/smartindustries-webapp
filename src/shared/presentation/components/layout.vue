@@ -1,5 +1,15 @@
 <script setup>
+import { useRouter } from 'vue-router'
+import { useIamStore } from '../../../iam/application/iam.store.js'
 import LanguageSwitcher from "./language-switcher.vue";
+
+const router = useRouter()
+const iamStore = useIamStore()
+
+function signOut() {
+  iamStore.signOut()
+  router.push('/auth/sign-in')
+}
 </script>
 
 <template>
@@ -9,7 +19,11 @@ import LanguageSwitcher from "./language-switcher.vue";
     </template>
     <template #end>
       <language-switcher class="mr-3"/>
-      <pv-button icon="pi pi-user" rounded text />
+      <span v-if="iamStore.currentUser" class="text-white mr-2 text-sm">
+        {{ iamStore.currentUser.fullName }}
+      </span>
+      <pv-button v-if="iamStore.currentUser" icon="pi pi-sign-out" rounded text @click="signOut" title="Sign Out" />
+      <pv-button v-else icon="pi pi-user" rounded text />
     </template>
   </pv-menubar>
   <router-view/>

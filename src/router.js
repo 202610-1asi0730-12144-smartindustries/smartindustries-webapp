@@ -6,6 +6,8 @@ import spaceManagementRoutes from "./space-management/presentation/space-managem
 import reportRoutes from "./report/presentation/report.routes.js";
 import administrationRoutes from "./administration/presentation/administration.routes.js";
 import accessRoutes from "./access/presentation/access.routes.js";
+import iamRoutes from "./iam/presentation/iam.routes.js";
+import { authGuard } from "./shared/presentation/guard/auth.guard.js";
 
 const operationsRoutes = [
     ...spaceManagementRoutes,
@@ -15,6 +17,7 @@ const operationsRoutes = [
 ]
 
 const routes = [
+    ...iamRoutes,
     { path: '', component: Layout, children: [
             { path: '', redirect: '/home'},
             { path: '/home', component: Home },
@@ -30,8 +33,8 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: routes,
-
 });
 
+router.beforeEach(authGuard);
 
 export default router;
