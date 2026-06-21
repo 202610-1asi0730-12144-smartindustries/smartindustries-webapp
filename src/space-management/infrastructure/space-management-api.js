@@ -30,4 +30,8 @@ export class SpaceManagementApi extends BaseApi {
     createOrganization(resource) {
         return this.http.post('/organizations', resource);
     }
+
+    createPerson(organizationId, resource) {
+        return this.http.post(`/organizations/${organizationId}/people`, resource);
+    }
 }
