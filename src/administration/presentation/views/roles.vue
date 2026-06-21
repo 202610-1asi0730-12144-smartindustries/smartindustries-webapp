@@ -3,7 +3,6 @@ import { useRouter } from "vue-router";
 import useOrganizationStore from "../../../shared/application/organization.store.js";
 import useAdministrationStore from "../../../administration/application/administration.store.js";
 import {onMounted, toRefs, ref} from "vue"
-import searchBar from "../../../shared/presentation/components/search-bar.vue";
 import CreateRoleForm from "../components/create-role-form.vue";
 
   const router = useRouter();
@@ -28,7 +27,6 @@ import CreateRoleForm from "../components/create-role-form.vue";
   <div class="roles-view">
     <h1>Roles</h1>
     <div class="filter-bar">
-      <search-bar/>
       <pv-button label="Create Role" icon="pi pi-plus" @click="showCreateDialog = true" />
     </div>
     <pv-data-table :value="roles" stripedRows style="width: 100%">
@@ -56,8 +54,7 @@ import CreateRoleForm from "../components/create-role-form.vue";
 }
 .filter-bar {
   display: flex;
-  align-items: center;
-  gap: 2rem;
+  justify-content: flex-end;
   margin-bottom: 1rem;
 }
 .roles-view :deep(.p-datatable) {

@@ -3,7 +3,6 @@ import { useRouter } from "vue-router";
 import useOrganizationStore from "../../../shared/application/organization.store.js";
 import useAccessStore from "../../../access/application/access.store.js";
 import {onMounted, toRefs, ref} from "vue"
-import searchBar from "../../../shared/presentation/components/search-bar.vue";
 import CreateAccessGroupForm from "../components/create-access-group-form.vue";
 
 const router = useRouter();
@@ -28,7 +27,6 @@ onMounted(() => {
   <div class="groups-view">
     <h1>Groups</h1>
     <div class="filter-bar">
-      <search-bar/>
       <pv-button label="Create Group" icon="pi pi-plus" @click="showCreateDialog = true" />
     </div>
     <pv-data-table :value="accessGroups" stripedRows style="width: 100%">
@@ -54,8 +52,7 @@ onMounted(() => {
 }
 .filter-bar {
   display: flex;
-  align-items: center;
-  gap: 2rem;
+  justify-content: flex-end;
   margin-bottom: 1rem;
 }
 .groups-view :deep(.p-datatable) {
