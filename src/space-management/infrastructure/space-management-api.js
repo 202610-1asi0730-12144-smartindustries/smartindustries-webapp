@@ -26,4 +26,8 @@ export class SpaceManagementApi extends BaseApi {
     getSites(organizationId) {
         return this.http.get(`/organizations/${organizationId}/sites`);
     }
+
+    createOrganization(resource) {
+        return this.http.post('/organizations', resource);
+    }
 }

@@ -1,15 +1,16 @@
 <script setup>
+  import { ref, onMounted, toRefs } from "vue";
   import useSpaceManagementStore from "../../../space-management/application/space-management.store.js";
-  import {onMounted, toRefs} from "vue";
+  import CreateOrganizationForm from "../../../space-management/presentation/components/create-organization-form.vue";
 
   const spaceManagementStore = useSpaceManagementStore();
-  const {organizations, organizationsLoaded} = toRefs(spaceManagementStore);
-  const {fetchOrganizations} = spaceManagementStore;
+  const { organizations, organizationsLoaded } = toRefs(spaceManagementStore);
+  const { fetchOrganizations } = spaceManagementStore;
+  const dialogVisible = ref(false);
 
   onMounted(() => {
-    if(!spaceManagementStore.organizationsLoaded) {
+    if (!spaceManagementStore.organizationsLoaded) {
       fetchOrganizations();
-      organizationsLoaded.value = spaceManagementStore.organizationsLoaded;
     }
   })
 </script>
@@ -17,20 +18,20 @@
 <template>
   <div class="home-header">
     <h1>Home</h1>
-    <pv-button icon="pi pi-plus" label="Create organization" outlined plain />
+    <pv-button icon="pi pi-plus" label="Create organization" outlined plain @click="dialogVisible = true" />
   </div>
   <div class="org-grid">
-    <pv-card v-for="org in organizations" :key="org.name">
+    <pv-card v-for="org in organizations" :key="org.id">
       <template #title>
         <div class="card-title-row">
           <span>{{ org.name }}</span>
           <pv-button icon="pi pi-ellipsis-v" rounded text plain />
         </div>
       </template>
-      <template #subtitle>Owner: {{ org.owner }}</template>
       <template #content>{{ org.description }}</template>
     </pv-card>
   </div>
+  <CreateOrganizationForm v-model:visible="dialogVisible" @created="fetchOrganizations" />
 </template>
 
 <style scoped>

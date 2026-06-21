@@ -53,6 +53,18 @@ const useSpaceManagementStore = defineStore('space-management', () => {
         }
     }
 
+    async function createOrganization(name, description) {
+        try {
+            const response = await spaceManagementApi.createOrganization({ name, description });
+            const org = OrganizationAssembler.toEntityFromResource(response.data);
+            organizations.value.unshift(org);
+            return org;
+        } catch (error) {
+            errors.value.push(error);
+            return null;
+        }
+    }
+
     async function fetchSites(organizationId) {
         try {
             const response = await spaceManagementApi.getSites(organizationId);
@@ -77,6 +89,7 @@ const useSpaceManagementStore = defineStore('space-management', () => {
         fetchPeople,
         fetchDevices,
         fetchSites,
+        createOrganization,
     }
 })
 
