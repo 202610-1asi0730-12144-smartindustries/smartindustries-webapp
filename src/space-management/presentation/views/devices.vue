@@ -85,7 +85,7 @@ onMounted(() => {
           <pv-tag :value="data.status" />
         </template>
       </pv-column>
-      <pv-column field="siteId" header="Site" />
+      <pv-column field="siteName" header="Site" />
       <pv-column header="" style="width: 4rem">
         <template #body="slotProps">
           <pv-button icon="pi pi-ellipsis-v" rounded text plain @click="toggleMenu($event, slotProps.data)" />
