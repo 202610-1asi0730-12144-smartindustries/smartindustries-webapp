@@ -111,6 +111,30 @@ const useSpaceManagementStore = defineStore('space-management', () => {
         }
     }
 
+    async function updateDevice(siteId, deviceId, name, mode) {
+        try {
+            const response = await spaceManagementApi.updateDevice(siteId, deviceId, { siteId, name, mode });
+            const updated = DeviceAssembler.toEntityFromResource(response.data);
+            const index = devices.value.findIndex(d => d.id === deviceId);
+            if (index !== -1) devices.value[index] = updated;
+            return updated;
+        } catch (error) {
+            errors.value.push(error);
+            return null;
+        }
+    }
+
+    async function deleteDevice(siteId, deviceId) {
+        try {
+            await spaceManagementApi.deleteDevice(siteId, deviceId);
+            devices.value = devices.value.filter(d => d.id !== deviceId);
+            return true;
+        } catch (error) {
+            errors.value.push(error);
+            return false;
+        }
+    }
+
     async function updatePerson(organizationId, personId, firstName, lastName, identityDocument) {
         try {
             const response = await spaceManagementApi.updatePerson(organizationId, personId, { firstName, lastName, identityDocument });
@@ -155,6 +179,8 @@ const useSpaceManagementStore = defineStore('space-management', () => {
         createSite,
         updatePerson,
         deletePerson,
+        updateDevice,
+        deleteDevice,
     }
 })
 

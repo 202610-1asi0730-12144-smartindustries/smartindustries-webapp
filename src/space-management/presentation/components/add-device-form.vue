@@ -4,7 +4,8 @@ import useSpaceManagementStore from '../../application/space-management.store.js
 
 const props = defineProps({
   visible: Boolean,
-  organizationId: Number
+  organizationId: Number,
+  device: { type: Object, default: null }
 })
 const emit = defineEmits(['update:visible', 'created'])
 
@@ -14,6 +15,7 @@ const siteId = ref(null)
 const name = ref('')
 const mode = ref('')
 const loading = ref(false)
+const isEditing = ref(false)
 const modeOptions = ['Free', 'Blocked', 'Security']
 
 watch(() => props.visible, (newVal) => {
@@ -22,19 +24,44 @@ watch(() => props.visible, (newVal) => {
   }
 })
 
-async function onSubmit() {
-  loading.value = true
-  const device = await spaceManagementStore.createDevice(
-    siteId.value,
-    name.value,
-    mode.value
-  )
-  loading.value = false
-  if (device) {
+watch(() => props.device, (d) => {
+  if (d) {
+    isEditing.value = true
+    siteId.value = d.siteId
+    name.value = d.name
+    mode.value = d.mode
+  } else {
+    isEditing.value = false
     siteId.value = null
     name.value = ''
     mode.value = ''
-    emit('created', device)
+  }
+})
+
+async function onSubmit() {
+  loading.value = true
+  let result
+  if (isEditing.value) {
+    result = await spaceManagementStore.updateDevice(
+      props.device.siteId,
+      props.device.id,
+      name.value,
+      mode.value
+    )
+  } else {
+    result = await spaceManagementStore.createDevice(
+      siteId.value,
+      name.value,
+      mode.value
+    )
+  }
+  loading.value = false
+  if (result) {
+    siteId.value = null
+    name.value = ''
+    mode.value = ''
+    isEditing.value = false
+    emit('created', result)
     emit('update:visible', false)
   }
 }
@@ -43,13 +70,14 @@ function onCancel() {
   siteId.value = null
   name.value = ''
   mode.value = ''
+  isEditing.value = false
   emit('update:visible', false)
 }
 </script>
 
 <template>
   <pv-dialog :visible="visible" @update:visible="emit('update:visible', $event)"
-    header="Add Device" :modal="true" :closable="true" :style="{ width: '480px' }">
+    :header="isEditing ? 'Edit Device' : 'Add Device'" :modal="true" :closable="true" :style="{ width: '480px' }">
     <div class="form-fields">
       <div class="field">
         <label>Site</label>
@@ -66,7 +94,7 @@ function onCancel() {
     </div>
     <template #footer>
       <pv-button label="Cancel" severity="secondary" @click="onCancel" />
-      <pv-button label="Create" :loading="loading" @click="onSubmit" />
+      <pv-button :label="isEditing ? 'Save' : 'Create'" :loading="loading" @click="onSubmit" />
     </template>
   </pv-dialog>
 </template>
