@@ -25,8 +25,8 @@ onMounted(() => {
 
 <template>
   <div class="groups-view">
-    <h1>Groups</h1>
-    <div class="filter-bar">
+    <div class="header-bar">
+      <h1>Groups</h1>
       <pv-button label="Create Group" icon="pi pi-plus" @click="showCreateDialog = true" />
     </div>
     <pv-data-table :value="accessGroups" stripedRows style="width: 100%">
@@ -50,9 +50,10 @@ onMounted(() => {
 .groups-view {
   padding: 0.5rem 3rem;
 }
-.filter-bar {
+.header-bar {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 1rem;
 }
 .groups-view :deep(.p-datatable) {

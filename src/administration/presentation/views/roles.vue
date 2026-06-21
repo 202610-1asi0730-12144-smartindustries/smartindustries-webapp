@@ -5,28 +5,28 @@ import useAdministrationStore from "../../../administration/application/administ
 import {onMounted, toRefs, ref} from "vue"
 import CreateRoleForm from "../components/create-role-form.vue";
 
-  const router = useRouter();
-  const orgStore = useOrganizationStore();
-  const administrationStore = useAdministrationStore();
-  const {roles, rolesLoaded} = toRefs(administrationStore);
-  const {fetchRoles} = administrationStore;
-  const showCreateDialog = ref(false);
+const router = useRouter();
+const orgStore = useOrganizationStore();
+const administrationStore = useAdministrationStore();
+const {roles, rolesLoaded} = toRefs(administrationStore);
+const {fetchRoles} = administrationStore;
+const showCreateDialog = ref(false);
 
-  onMounted(() => {
-    if (!orgStore.selectedOrganizationId) {
-      router.push('/home');
-      return;
-    }
-    if(!administrationStore.rolesLoaded) {
-      fetchRoles(orgStore.selectedOrganizationId);
-    }
-  })
+onMounted(() => {
+  if (!orgStore.selectedOrganizationId) {
+    router.push('/home');
+    return;
+  }
+  if(!administrationStore.rolesLoaded) {
+    fetchRoles(orgStore.selectedOrganizationId);
+  }
+})
 </script>
 
 <template>
   <div class="roles-view">
-    <h1>Roles</h1>
-    <div class="filter-bar">
+    <div class="header-bar">
+      <h1>Roles</h1>
       <pv-button label="Create Role" icon="pi pi-plus" @click="showCreateDialog = true" />
     </div>
     <pv-data-table :value="roles" stripedRows style="width: 100%">
@@ -52,9 +52,10 @@ import CreateRoleForm from "../components/create-role-form.vue";
 .roles-view {
   padding: 0.5rem 3rem;
 }
-.filter-bar {
+.header-bar {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 1rem;
 }
 .roles-view :deep(.p-datatable) {
