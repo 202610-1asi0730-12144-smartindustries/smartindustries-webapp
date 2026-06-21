@@ -1,8 +1,13 @@
 export class Person {
-  constructor({ id = null, name = '', currentLocation = '', status = '' } = {}) {
+  constructor({ id = null, organizationId = null, firstName = '', lastName = '', identityDocument = '' } = {}) {
     this.id = id
-    this.name = name
-    this.currentLocation = currentLocation
-    this.status = status
+    this.organizationId = organizationId
+    this.firstName = firstName
+    this.lastName = lastName
+    this.identityDocument = identityDocument
+  }
+
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`
   }
 }

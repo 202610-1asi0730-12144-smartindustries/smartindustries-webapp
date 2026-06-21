@@ -1,10 +1,10 @@
-import {defineStore} from "pinia";
-import {SpaceManagementApi} from "../infrastructure/space-management-api.js";
-import {ref} from "vue";
-import {OrganizationAssembler} from "../infrastructure/organization.assembler.js";
-import {PersonAssembler} from "../infrastructure/person.assembler.js";
-import {DeviceAssembler} from "../infrastructure/device.assembler.js";
-import {SiteAssembler} from "../infrastructure/site.assembler.js";
+import { defineStore } from "pinia";
+import { SpaceManagementApi } from "../infrastructure/space-management-api.js";
+import { ref } from "vue";
+import { OrganizationAssembler } from "../infrastructure/organization.assembler.js";
+import { PersonAssembler } from "../infrastructure/person.assembler.js";
+import { DeviceAssembler } from "../infrastructure/device.assembler.js";
+import { SiteAssembler } from "../infrastructure/site.assembler.js";
 
 const spaceManagementApi = new SpaceManagementApi();
 
@@ -23,44 +23,44 @@ const useSpaceManagementStore = defineStore('space-management', () => {
 
     const errors = ref([]);
 
-    function fetchOrganizations() {
-        spaceManagementApi.getOrganizations().then(response => {
+    async function fetchOrganizations() {
+        try {
+            const response = await spaceManagementApi.getOrganizations();
             organizations.value = OrganizationAssembler.toEntitiesFromResponse(response);
             organizationsLoaded.value = true;
-            console.log(organizationsLoaded.value);
-        }).catch(error => {
+        } catch (error) {
             errors.value.push(error);
-        });
+        }
     }
 
-    function fetchPeople() {
-        spaceManagementApi.getPeople().then(response => {
+    async function fetchPeople(organizationId) {
+        try {
+            const response = await spaceManagementApi.getPeople(organizationId);
             people.value = PersonAssembler.toEntitiesFromResponse(response);
             peopleLoaded.value = true;
-            console.log(peopleLoaded.value);
-        }).catch(error => {
+        } catch (error) {
             errors.value.push(error);
-        });
+        }
     }
 
-    function fetchDevices() {
-        spaceManagementApi.getDevices().then(response => {
+    async function fetchDevices(organizationId) {
+        try {
+            const response = await spaceManagementApi.getDevices(organizationId);
             devices.value = DeviceAssembler.toEntitiesFromResponse(response);
             devicesLoaded.value = true;
-            console.log(devicesLoaded.value);
-        }).catch(error => {
+        } catch (error) {
             errors.value.push(error);
-        });
+        }
     }
 
-    function fetchSites() {
-        spaceManagementApi.getSites().then(response => {
+    async function fetchSites(organizationId) {
+        try {
+            const response = await spaceManagementApi.getSites(organizationId);
             sites.value = SiteAssembler.toEntitiesFromResponse(response);
             sitesLoaded.value = true;
-            console.log(sitesLoaded.value);
-        }).catch(error => {
+        } catch (error) {
             errors.value.push(error);
-        });
+        }
     }
 
     return {

@@ -1,8 +1,7 @@
-import {defineStore} from "pinia";
-import {AdministrationApi} from "../infrastructure/administration-api.js";
-import {ref} from "vue";
-import {AdministratorAssembler} from "../infrastructure/administrator.assembler.js";
-import {RoleAssembler} from "../infrastructure/role.assembler.js";
+import { defineStore } from "pinia";
+import { AdministrationApi } from "../infrastructure/administration-api.js";
+import { ref } from "vue";
+import { RoleAssembler } from "../infrastructure/role.assembler.js";
 
 const administrationApi = new AdministrationApi();
 
@@ -15,24 +14,31 @@ const useAdministrationStore = defineStore('administration', () => {
 
     const errors = ref([]);
 
-    function fetchAdministrators() {
-        administrationApi.getAdministrators().then(response => {
-            administrators.value = AdministratorAssembler.toEntitiesFromResponse(response);
+    async function fetchAdministrators(organizationId) {
+        try {
+            const response = await administrationApi.getAdministrators(organizationId);
+            administrators.value = response.data.map(r => ({
+                userId: r.userId || r.id,
+                email: r.email || '',
+                firstName: r.firstName || '',
+                lastName: r.lastName || '',
+                roleId: r.roleId,
+                roleName: r.roleName || ''
+            }));
             administratorsLoaded.value = true;
-            console.log(administratorsLoaded.value);
-        }).catch(error => {
+        } catch (error) {
             errors.value.push(error);
-        });
+        }
     }
 
-    function fetchRoles() {
-        administrationApi.getRoles().then(response => {
+    async function fetchRoles(organizationId) {
+        try {
+            const response = await administrationApi.getRoles(organizationId);
             roles.value = RoleAssembler.toEntitiesFromResponse(response);
             rolesLoaded.value = true;
-            console.log(rolesLoaded.value);
-        }).catch(error => {
+        } catch (error) {
             errors.value.push(error);
-        });
+        }
     }
 
     return {

@@ -1,7 +1,7 @@
-import {defineStore} from "pinia";
-import {AccessApi} from "../infrastructure/access-api.js";
-import {ref} from "vue";
-import {AccessGroupAssembler} from "../infrastructure/access-group.assembler.js";
+import { defineStore } from "pinia";
+import { AccessApi } from "../infrastructure/access-api.js";
+import { ref } from "vue";
+import { AccessGroupAssembler } from "../infrastructure/access-group.assembler.js";
 
 const accessApi = new AccessApi();
 
@@ -11,14 +11,14 @@ const useAccessStore = defineStore('access', () => {
 
     const errors = ref([]);
 
-    function fetchAccessGroups() {
-        accessApi.getAccessGroups().then(response => {
+    async function fetchAccessGroups(organizationId) {
+        try {
+            const response = await accessApi.getAccessGroups(organizationId);
             accessGroups.value = AccessGroupAssembler.toEntitiesFromResponse(response);
             accessGroupsLoaded.value = true;
-            console.log(accessGroupsLoaded.value);
-        }).catch(error => {
+        } catch (error) {
             errors.value.push(error);
-        });
+        }
     }
 
     return {

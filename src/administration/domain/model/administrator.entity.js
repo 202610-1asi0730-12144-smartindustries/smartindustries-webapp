@@ -1,8 +1,14 @@
 export class Administrator {
-  constructor({ id = null, name = '', role = '', status = '' } = {}) {
-    this.id = id
-    this.name = name
-    this.role = role
-    this.status = status
+  constructor({ userId = null, email = '', firstName = '', lastName = '', roleId = null, roleName = '' } = {}) {
+    this.userId = userId
+    this.email = email
+    this.firstName = firstName
+    this.lastName = lastName
+    this.roleId = roleId
+    this.roleName = roleName
+  }
+
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`
   }
 }
