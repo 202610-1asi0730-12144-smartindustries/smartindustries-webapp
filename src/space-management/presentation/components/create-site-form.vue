@@ -1,10 +1,11 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import useSpaceManagementStore from '../../application/space-management.store.js'
 
 const props = defineProps({
   visible: Boolean,
-  organizationId: Number
+  organizationId: Number,
+  site: { type: Object, default: null }
 })
 const emit = defineEmits(['update:visible', 'created'])
 
@@ -12,19 +13,43 @@ const spaceManagementStore = useSpaceManagementStore()
 const name = ref('')
 const description = ref('')
 const loading = ref(false)
+const isEditing = ref(false)
+
+watch(() => props.site, (s) => {
+  if (s) {
+    isEditing.value = true
+    name.value = s.name
+    description.value = s.description
+  } else {
+    isEditing.value = false
+    name.value = ''
+    description.value = ''
+  }
+})
 
 async function onSubmit() {
   loading.value = true
-  const site = await spaceManagementStore.createSite(
-    props.organizationId,
-    name.value,
-    description.value
-  )
+  let result
+  if (isEditing.value) {
+    result = await spaceManagementStore.updateSite(
+      props.organizationId,
+      props.site.id,
+      name.value,
+      description.value
+    )
+  } else {
+    result = await spaceManagementStore.createSite(
+      props.organizationId,
+      name.value,
+      description.value
+    )
+  }
   loading.value = false
-  if (site) {
+  if (result) {
     name.value = ''
     description.value = ''
-    emit('created', site)
+    isEditing.value = false
+    emit('created', result)
     emit('update:visible', false)
   }
 }
@@ -32,13 +57,14 @@ async function onSubmit() {
 function onCancel() {
   name.value = ''
   description.value = ''
+  isEditing.value = false
   emit('update:visible', false)
 }
 </script>
 
 <template>
   <pv-dialog :visible="visible" @update:visible="emit('update:visible', $event)"
-    header="Create Site" :modal="true" :closable="true" :style="{ width: '480px' }">
+    :header="isEditing ? 'Edit Site' : 'Create Site'" :modal="true" :closable="true" :style="{ width: '480px' }">
     <div class="form-fields">
       <div class="field">
         <label>Name</label>
@@ -51,7 +77,7 @@ function onCancel() {
     </div>
     <template #footer>
       <pv-button label="Cancel" severity="secondary" @click="onCancel" />
-      <pv-button label="Create" :loading="loading" @click="onSubmit" />
+      <pv-button :label="isEditing ? 'Save' : 'Create'" :loading="loading" @click="onSubmit" />
     </template>
   </pv-dialog>
 </template>

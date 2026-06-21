@@ -43,6 +43,14 @@ export class SpaceManagementApi extends BaseApi {
         return this.http.post(`/organizations/${organizationId}/sites`, resource);
     }
 
+    updateSite(organizationId, siteId, resource) {
+        return this.http.put(`/organizations/${organizationId}/sites/${siteId}`, resource);
+    }
+
+    deleteSite(organizationId, siteId) {
+        return this.http.delete(`/organizations/${organizationId}/sites/${siteId}`);
+    }
+
     updateDevice(siteId, deviceId, resource) {
         return this.http.put(`/sites/${siteId}/devices/${deviceId}`, resource);
     }
