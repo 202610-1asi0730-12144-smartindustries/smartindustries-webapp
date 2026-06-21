@@ -1,15 +1,23 @@
 <script setup>
+import { useRouter } from "vue-router";
+import useOrganizationStore from "../../../shared/application/organization.store.js";
 import useSpaceManagementStore from "../../../space-management/application/space-management.store.js";
 import {onMounted, toRefs} from "vue"
 import searchBar from "../../../shared/presentation/components/search-bar.vue";
 
+const router = useRouter();
+const orgStore = useOrganizationStore();
 const spaceManagementStore = useSpaceManagementStore();
 const {sites, sitesLoaded} = toRefs(spaceManagementStore);
 const {fetchSites} = spaceManagementStore;
 
 onMounted(() => {
+  if (!orgStore.selectedOrganizationId) {
+    router.push('/home');
+    return;
+  }
   if(!spaceManagementStore.sitesLoaded) {
-    fetchSites();
+    fetchSites(orgStore.selectedOrganizationId);
   }
 })
 </script>
@@ -23,6 +31,7 @@ onMounted(() => {
     <pv-data-table :value="sites" stripedRows style="width: 100%">
       <pv-column field="id" header="ID" />
       <pv-column field="name" header="Name" />
+      <pv-column field="description" header="Description" />
       <pv-column header="" style="width: 4rem">
         <template #body>
           <pv-button icon="pi pi-ellipsis-v" rounded text plain />

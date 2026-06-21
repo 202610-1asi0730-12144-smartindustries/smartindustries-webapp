@@ -1,4 +1,8 @@
 <script setup>
+import useOrganizationStore from "../../../shared/application/organization.store.js";
+
+const orgStore = useOrganizationStore();
+
 const menuItems = [
   { label: 'Dashboard',     icon: 'pi pi-chart-pie',   to: '/operations/dashboard' },
   { label: 'People',        icon: 'pi pi-users',       to: '/operations/people' },

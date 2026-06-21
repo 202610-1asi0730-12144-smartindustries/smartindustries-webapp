@@ -1,16 +1,24 @@
 <script setup>
+import { useRouter } from "vue-router";
+import useOrganizationStore from "../../../shared/application/organization.store.js";
 import useSpaceManagementStore from "../../../space-management/application/space-management.store.js";
 import {onMounted, toRefs} from "vue"
 import { ref } from "vue"
 import searchBar from "../../../shared/presentation/components/search-bar.vue";
 
+const router = useRouter();
+const orgStore = useOrganizationStore();
 const spaceManagementStore = useSpaceManagementStore();
 const {devices, devicesLoaded} = toRefs(spaceManagementStore);
 const {fetchDevices} = spaceManagementStore;
 
 onMounted(() => {
+  if (!orgStore.selectedOrganizationId) {
+    router.push('/home');
+    return;
+  }
   if(!spaceManagementStore.devicesLoaded) {
-    fetchDevices();
+    fetchDevices(orgStore.selectedOrganizationId);
   }
 })
 
@@ -49,7 +57,7 @@ const siteOptions = ['All', 'Building A', 'Building B', 'Warehouse', 'Remote']
           <pv-tag :value="data.status" />
         </template>
       </pv-column>
-      <pv-column field="site" header="Site" />
+      <pv-column field="siteId" header="Site" />
       <pv-column header="" style="width: 4rem">
         <template #body>
           <pv-button icon="pi pi-ellipsis-v" rounded text plain />

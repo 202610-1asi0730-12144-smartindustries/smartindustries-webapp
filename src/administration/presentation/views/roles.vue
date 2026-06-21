@@ -1,15 +1,23 @@
 <script setup>
+import { useRouter } from "vue-router";
+import useOrganizationStore from "../../../shared/application/organization.store.js";
 import useAdministrationStore from "../../../administration/application/administration.store.js";
 import {onMounted, toRefs} from "vue"
 import searchBar from "../../../shared/presentation/components/search-bar.vue";
 
+  const router = useRouter();
+  const orgStore = useOrganizationStore();
   const administrationStore = useAdministrationStore();
   const {roles, rolesLoaded} = toRefs(administrationStore);
   const {fetchRoles} = administrationStore;
 
   onMounted(() => {
+    if (!orgStore.selectedOrganizationId) {
+      router.push('/home');
+      return;
+    }
     if(!administrationStore.rolesLoaded) {
-      fetchRoles();
+      fetchRoles(orgStore.selectedOrganizationId);
     }
   })
 </script>
@@ -23,6 +31,9 @@ import searchBar from "../../../shared/presentation/components/search-bar.vue";
     <pv-data-table :value="roles" stripedRows style="width: 100%">
       <pv-column field="id" header="ID" />
       <pv-column field="name" header="Name" />
+      <pv-column field="canCreateSites" header="Can Create Sites" />
+      <pv-column field="canCreatePeople" header="Can Create People" />
+      <pv-column field="canConnectDevices" header="Can Connect Devices" />
       <pv-column header="" style="width: 4rem">
         <template #body>
           <pv-button icon="pi pi-ellipsis-v" rounded text plain />
