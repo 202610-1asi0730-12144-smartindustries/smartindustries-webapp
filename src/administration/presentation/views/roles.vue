@@ -2,14 +2,16 @@
 import { useRouter } from "vue-router";
 import useOrganizationStore from "../../../shared/application/organization.store.js";
 import useAdministrationStore from "../../../administration/application/administration.store.js";
-import {onMounted, toRefs} from "vue"
+import {onMounted, toRefs, ref} from "vue"
 import searchBar from "../../../shared/presentation/components/search-bar.vue";
+import CreateRoleForm from "../components/create-role-form.vue";
 
   const router = useRouter();
   const orgStore = useOrganizationStore();
   const administrationStore = useAdministrationStore();
   const {roles, rolesLoaded} = toRefs(administrationStore);
   const {fetchRoles} = administrationStore;
+  const showCreateDialog = ref(false);
 
   onMounted(() => {
     if (!orgStore.selectedOrganizationId) {
@@ -27,6 +29,7 @@ import searchBar from "../../../shared/presentation/components/search-bar.vue";
     <h1>Roles</h1>
     <div class="filter-bar">
       <search-bar/>
+      <pv-button label="Create Role" icon="pi pi-plus" @click="showCreateDialog = true" />
     </div>
     <pv-data-table :value="roles" stripedRows style="width: 100%">
       <pv-column field="id" header="ID" />
@@ -40,6 +43,10 @@ import searchBar from "../../../shared/presentation/components/search-bar.vue";
         </template>
       </pv-column>
     </pv-data-table>
+    <CreateRoleForm
+      :visible="showCreateDialog"
+      :organizationId="orgStore.selectedOrganizationId"
+      @update:visible="showCreateDialog = $event" />
   </div>
 </template>
 

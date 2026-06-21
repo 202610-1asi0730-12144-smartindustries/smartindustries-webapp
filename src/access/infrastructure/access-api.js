@@ -9,4 +9,8 @@ export class AccessApi extends BaseApi {
     getAccessGroups(organizationId) {
         return this.http.get(`/organizations/${organizationId}/access-groups`);
     }
+
+    createAccessGroup(organizationId, resource) {
+        return this.http.post(`/organizations/${organizationId}/access-groups`, resource);
+    }
 }

@@ -41,6 +41,18 @@ const useAdministrationStore = defineStore('administration', () => {
         }
     }
 
+    async function createRole(organizationId, name, canCreateSites, canCreatePeople, canConnectDevices) {
+        try {
+            const response = await administrationApi.addRole(organizationId, { name, canCreateSites, canCreatePeople, canConnectDevices });
+            const role = RoleAssembler.toEntityFromResource(response.data);
+            roles.value.unshift(role);
+            return role;
+        } catch (error) {
+            errors.value.push(error);
+            return null;
+        }
+    }
+
     return {
         administrators,
         administratorsLoaded,
@@ -49,6 +61,7 @@ const useAdministrationStore = defineStore('administration', () => {
         errors,
         fetchAdministrators,
         fetchRoles,
+        createRole,
     }
 })
 

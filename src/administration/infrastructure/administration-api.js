@@ -13,4 +13,8 @@ export class AdministrationApi extends BaseApi {
     getRoles(organizationId) {
         return this.http.get(`/organizations/${organizationId}/roles`);
     }
+
+    addRole(organizationId, resource) {
+        return this.http.post(`/organizations/${organizationId}/roles`, resource);
+    }
 }

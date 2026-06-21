@@ -21,11 +21,24 @@ const useAccessStore = defineStore('access', () => {
         }
     }
 
+    async function createAccessGroup(organizationId, name, description) {
+        try {
+            const response = await accessApi.createAccessGroup(organizationId, { name, description });
+            const group = AccessGroupAssembler.toEntityFromResource(response.data);
+            accessGroups.value.unshift(group);
+            return group;
+        } catch (error) {
+            errors.value.push(error);
+            return null;
+        }
+    }
+
     return {
         accessGroups,
         accessGroupsLoaded,
         errors,
         fetchAccessGroups,
+        createAccessGroup,
     }
 })
 

@@ -2,14 +2,16 @@
 import { useRouter } from "vue-router";
 import useOrganizationStore from "../../../shared/application/organization.store.js";
 import useAccessStore from "../../../access/application/access.store.js";
-import {onMounted, toRefs} from "vue"
+import {onMounted, toRefs, ref} from "vue"
 import searchBar from "../../../shared/presentation/components/search-bar.vue";
+import CreateAccessGroupForm from "../components/create-access-group-form.vue";
 
 const router = useRouter();
 const orgStore = useOrganizationStore();
 const accessStore = useAccessStore();
 const {accessGroups, accessGroupsLoaded} = toRefs(accessStore);
 const {fetchAccessGroups} = accessStore;
+const showCreateDialog = ref(false);
 
 onMounted(() => {
   if (!orgStore.selectedOrganizationId) {
@@ -27,6 +29,7 @@ onMounted(() => {
     <h1>Groups</h1>
     <div class="filter-bar">
       <search-bar/>
+      <pv-button label="Create Group" icon="pi pi-plus" @click="showCreateDialog = true" />
     </div>
     <pv-data-table :value="accessGroups" stripedRows style="width: 100%">
       <pv-column field="id" header="ID" />
@@ -38,6 +41,10 @@ onMounted(() => {
         </template>
       </pv-column>
     </pv-data-table>
+    <CreateAccessGroupForm
+      :visible="showCreateDialog"
+      :organizationId="orgStore.selectedOrganizationId"
+      @update:visible="showCreateDialog = $event" />
   </div>
 </template>
 
