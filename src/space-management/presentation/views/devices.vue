@@ -1,16 +1,20 @@
 <script setup>
+import { ref, onMounted, toRefs } from "vue"
 import { useRouter } from "vue-router";
 import useOrganizationStore from "../../../shared/application/organization.store.js";
 import useSpaceManagementStore from "../../../space-management/application/space-management.store.js";
-import {onMounted, toRefs} from "vue"
-import { ref } from "vue"
-import searchBar from "../../../shared/presentation/components/search-bar.vue";
+import AddDeviceForm from "../../../space-management/presentation/components/add-device-form.vue";
 
 const router = useRouter();
 const orgStore = useOrganizationStore();
 const spaceManagementStore = useSpaceManagementStore();
 const {devices, devicesLoaded} = toRefs(spaceManagementStore);
 const {fetchDevices} = spaceManagementStore;
+const dialogVisible = ref(false);
+
+function refreshDevices() {
+  fetchDevices(orgStore.selectedOrganizationId);
+}
 
 onMounted(() => {
   if (!orgStore.selectedOrganizationId) {
@@ -21,32 +25,13 @@ onMounted(() => {
     fetchDevices(orgStore.selectedOrganizationId);
   }
 })
-
-const mode = ref('All')
-const status = ref('All')
-const site = ref('All')
-const modeOptions = ['All', 'Blocked', 'Free', 'Security']
-const statusOptions = ['All', 'Online', 'Offline']
-const siteOptions = ['All', 'Building A', 'Building B', 'Warehouse', 'Remote']
 </script>
 
 <template>
   <div class="devices-view">
-    <h1>Devices</h1>
-    <div class="filter-bar">
-      <search-bar/>
-      <div class="filter-group">
-        <label for="mode-select">Mode</label>
-        <pv-select v-model="mode" :options="modeOptions" placeholder="Mode" inputId="mode-select" />
-      </div>
-      <div class="filter-group">
-        <label for="status-select">Status</label>
-        <pv-select v-model="status" :options="statusOptions" placeholder="Status" inputId="status-select" />
-      </div>
-      <div class="filter-group">
-        <label for="site-select">Site</label>
-        <pv-select v-model="site" :options="siteOptions" placeholder="Site" inputId="site-select" />
-      </div>
+    <div class="devices-header">
+      <h1>Devices</h1>
+      <pv-button icon="pi pi-plus" label="Add Device" @click="dialogVisible = true" />
     </div>
     <pv-data-table :value="devices" stripedRows style="width: 100%">
       <pv-column field="id" header="ID" />
@@ -65,22 +50,18 @@ const siteOptions = ['All', 'Building A', 'Building B', 'Warehouse', 'Remote']
       </pv-column>
     </pv-data-table>
   </div>
+  <AddDeviceForm v-model:visible="dialogVisible" :organization-id="orgStore.selectedOrganizationId" @created="refreshDevices" />
 </template>
 
 <style scoped>
 .devices-view {
   padding: 0.5rem 3rem;
 }
-.filter-bar {
+.devices-header {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  justify-content: space-between;
   margin-bottom: 1rem;
-}
-.filter-group {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 }
 .devices-view :deep(.p-datatable) {
   width: 100%;
