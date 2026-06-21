@@ -53,6 +53,19 @@ const useAdministrationStore = defineStore('administration', () => {
         }
     }
 
+    async function updateRole(organizationId, roleId, name, canCreateSites, canCreatePeople, canConnectDevices) {
+        try {
+            const response = await administrationApi.updateRole(organizationId, roleId, { name, canCreateSites, canCreatePeople, canConnectDevices });
+            const updated = RoleAssembler.toEntityFromResource(response.data);
+            const index = roles.value.findIndex(r => r.id === roleId);
+            if (index !== -1) roles.value[index] = updated;
+            return updated;
+        } catch (error) {
+            errors.value.push(error);
+            return null;
+        }
+    }
+
     return {
         administrators,
         administratorsLoaded,
@@ -62,6 +75,7 @@ const useAdministrationStore = defineStore('administration', () => {
         fetchAdministrators,
         fetchRoles,
         createRole,
+        updateRole,
     }
 })
 

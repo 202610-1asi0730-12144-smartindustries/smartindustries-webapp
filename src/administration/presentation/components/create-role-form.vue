@@ -1,8 +1,12 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import useAdministrationStore from '../../application/administration.store.js'
 
-const props = defineProps({ visible: Boolean, organizationId: Number })
+const props = defineProps({
+  visible: Boolean,
+  organizationId: Number,
+  role: { type: Object, default: null }
+})
 const emit = defineEmits(['update:visible', 'created'])
 
 const administrationStore = useAdministrationStore()
@@ -11,23 +15,53 @@ const canCreateSites = ref(false)
 const canCreatePeople = ref(false)
 const canConnectDevices = ref(false)
 const loading = ref(false)
+const isEditing = ref(false)
 
-async function onSubmit() {
-  loading.value = true
-  const role = await administrationStore.createRole(
-    props.organizationId,
-    name.value,
-    canCreateSites.value,
-    canCreatePeople.value,
-    canConnectDevices.value
-  )
-  loading.value = false
-  if (role) {
+watch(() => props.role, (r) => {
+  if (r) {
+    isEditing.value = true
+    name.value = r.name
+    canCreateSites.value = r.canCreateSites
+    canCreatePeople.value = r.canCreatePeople
+    canConnectDevices.value = r.canConnectDevices
+  } else {
+    isEditing.value = false
     name.value = ''
     canCreateSites.value = false
     canCreatePeople.value = false
     canConnectDevices.value = false
-    emit('created', role)
+  }
+})
+
+async function onSubmit() {
+  loading.value = true
+  let result
+  if (isEditing.value) {
+    result = await administrationStore.updateRole(
+      props.organizationId,
+      props.role.id,
+      name.value,
+      canCreateSites.value,
+      canCreatePeople.value,
+      canConnectDevices.value
+    )
+  } else {
+    result = await administrationStore.createRole(
+      props.organizationId,
+      name.value,
+      canCreateSites.value,
+      canCreatePeople.value,
+      canConnectDevices.value
+    )
+  }
+  loading.value = false
+  if (result) {
+    name.value = ''
+    canCreateSites.value = false
+    canCreatePeople.value = false
+    canConnectDevices.value = false
+    isEditing.value = false
+    emit('created', result)
     emit('update:visible', false)
   }
 }
@@ -37,13 +71,14 @@ function onCancel() {
   canCreateSites.value = false
   canCreatePeople.value = false
   canConnectDevices.value = false
+  isEditing.value = false
   emit('update:visible', false)
 }
 </script>
 
 <template>
   <pv-dialog :visible="visible" @update:visible="emit('update:visible', $event)"
-    header="Create Role" :modal="true" :closable="true" :style="{ width: '480px' }">
+    :header="isEditing ? 'Edit Role' : 'Create Role'" :modal="true" :closable="true" :style="{ width: '480px' }">
     <div class="form-fields">
       <div class="field">
         <label>Role Name</label>
@@ -67,7 +102,7 @@ function onCancel() {
     </div>
     <template #footer>
       <pv-button label="Cancel" severity="secondary" @click="onCancel" />
-      <pv-button label="Create" :loading="loading" @click="onSubmit" />
+      <pv-button :label="isEditing ? 'Save' : 'Create'" :loading="loading" @click="onSubmit" />
     </template>
   </pv-dialog>
 </template>

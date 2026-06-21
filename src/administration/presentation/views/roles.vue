@@ -11,6 +11,27 @@ const administrationStore = useAdministrationStore();
 const {roles, rolesLoaded} = toRefs(administrationStore);
 const {fetchRoles} = administrationStore;
 const showCreateDialog = ref(false);
+const editDialogVisible = ref(false);
+const selectedRole = ref(null);
+
+const menu = ref(null);
+const menuTarget = ref(null);
+
+const menuItems = ref([
+  {
+    label: 'Edit',
+    icon: 'pi pi-pencil',
+    command: () => {
+      selectedRole.value = menuTarget.value;
+      editDialogVisible.value = true;
+    }
+  }
+]);
+
+function toggleMenu(event, role) {
+  menuTarget.value = role;
+  menu.value.toggle(event);
+}
 
 onMounted(() => {
   if (!orgStore.selectedOrganizationId) {
@@ -36,15 +57,24 @@ onMounted(() => {
       <pv-column field="canCreatePeople" header="Can Create People" />
       <pv-column field="canConnectDevices" header="Can Connect Devices" />
       <pv-column header="" style="width: 4rem">
-        <template #body>
-          <pv-button icon="pi pi-ellipsis-v" rounded text plain />
+        <template #body="slotProps">
+          <pv-button v-if="slotProps.data.name !== 'Root'" icon="pi pi-ellipsis-v" rounded text plain @click="toggleMenu($event, slotProps.data)" />
         </template>
       </pv-column>
     </pv-data-table>
+
+    <pv-menu ref="menu" :model="menuItems" :popup="true" />
+
     <CreateRoleForm
       :visible="showCreateDialog"
       :organizationId="orgStore.selectedOrganizationId"
       @update:visible="showCreateDialog = $event" />
+
+    <CreateRoleForm
+      :visible="editDialogVisible"
+      :organizationId="orgStore.selectedOrganizationId"
+      :role="selectedRole"
+      @update:visible="editDialogVisible = $event" />
   </div>
 </template>
 
