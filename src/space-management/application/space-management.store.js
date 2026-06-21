@@ -111,6 +111,30 @@ const useSpaceManagementStore = defineStore('space-management', () => {
         }
     }
 
+    async function updatePerson(organizationId, personId, firstName, lastName, identityDocument) {
+        try {
+            const response = await spaceManagementApi.updatePerson(organizationId, personId, { firstName, lastName, identityDocument });
+            const updated = PersonAssembler.toEntityFromResource(response.data);
+            const index = people.value.findIndex(p => p.id === personId);
+            if (index !== -1) people.value[index] = updated;
+            return updated;
+        } catch (error) {
+            errors.value.push(error);
+            return null;
+        }
+    }
+
+    async function deletePerson(organizationId, personId) {
+        try {
+            await spaceManagementApi.deletePerson(organizationId, personId);
+            people.value = people.value.filter(p => p.id !== personId);
+            return true;
+        } catch (error) {
+            errors.value.push(error);
+            return false;
+        }
+    }
+
     return {
         organizations,
         organizationsLoaded,
@@ -129,6 +153,8 @@ const useSpaceManagementStore = defineStore('space-management', () => {
         createPerson,
         createDevice,
         createSite,
+        updatePerson,
+        deletePerson,
     }
 })
 
