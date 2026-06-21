@@ -53,6 +53,7 @@ export const useIamStore = defineStore('iam', () => {
   function signOut() {
     localStorage.removeItem(TOKEN_KEY)
     localStorage.removeItem(USER_KEY)
+    localStorage.removeItem("smartlock-selected-org")
     currentUser.value = null
   }
 
