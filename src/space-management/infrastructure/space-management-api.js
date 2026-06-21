@@ -38,4 +38,8 @@ export class SpaceManagementApi extends BaseApi {
     createDevice(siteId, resource) {
         return this.http.post(`/sites/${siteId}/devices`, resource);
     }
+
+    createSite(organizationId, resource) {
+        return this.http.post(`/organizations/${organizationId}/sites`, resource);
+    }
 }

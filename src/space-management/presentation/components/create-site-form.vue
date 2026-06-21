@@ -2,7 +2,10 @@
 import { ref } from 'vue'
 import useSpaceManagementStore from '../../application/space-management.store.js'
 
-const props = defineProps({ visible: Boolean })
+const props = defineProps({
+  visible: Boolean,
+  organizationId: Number
+})
 const emit = defineEmits(['update:visible', 'created'])
 
 const spaceManagementStore = useSpaceManagementStore()
@@ -12,12 +15,16 @@ const loading = ref(false)
 
 async function onSubmit() {
   loading.value = true
-  const org = await spaceManagementStore.createOrganization(name.value, description.value)
+  const site = await spaceManagementStore.createSite(
+    props.organizationId,
+    name.value,
+    description.value
+  )
   loading.value = false
-  if (org) {
+  if (site) {
     name.value = ''
     description.value = ''
-    emit('created', org)
+    emit('created', site)
     emit('update:visible', false)
   }
 }
@@ -31,11 +38,11 @@ function onCancel() {
 
 <template>
   <pv-dialog :visible="visible" @update:visible="emit('update:visible', $event)"
-    header="Create Organization" :modal="true" :closable="true" :style="{ width: '480px' }">
+    header="Create Site" :modal="true" :closable="true" :style="{ width: '480px' }">
     <div class="form-fields">
       <div class="field">
         <label>Name</label>
-        <pv-input-text v-model="name" placeholder="Organization name" fluid />
+        <pv-input-text v-model="name" placeholder="Site name" fluid />
       </div>
       <div class="field">
         <label>Description</label>

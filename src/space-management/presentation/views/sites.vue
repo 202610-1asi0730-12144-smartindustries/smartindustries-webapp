@@ -1,15 +1,20 @@
 <script setup>
+import { ref, onMounted, toRefs } from "vue"
 import { useRouter } from "vue-router";
 import useOrganizationStore from "../../../shared/application/organization.store.js";
 import useSpaceManagementStore from "../../../space-management/application/space-management.store.js";
-import {onMounted, toRefs} from "vue"
-import searchBar from "../../../shared/presentation/components/search-bar.vue";
+import CreateSiteForm from "../../../space-management/presentation/components/create-site-form.vue";
 
 const router = useRouter();
 const orgStore = useOrganizationStore();
 const spaceManagementStore = useSpaceManagementStore();
 const {sites, sitesLoaded} = toRefs(spaceManagementStore);
 const {fetchSites} = spaceManagementStore;
+const dialogVisible = ref(false);
+
+function refreshSites() {
+  fetchSites(orgStore.selectedOrganizationId);
+}
 
 onMounted(() => {
   if (!orgStore.selectedOrganizationId) {
@@ -24,9 +29,9 @@ onMounted(() => {
 
 <template>
   <div class="sites-view">
-    <h1>Sites</h1>
-    <div class="filter-bar">
-      <search-bar/>
+    <div class="sites-header">
+      <h1>Sites</h1>
+      <pv-button icon="pi pi-plus" label="Create Site" @click="dialogVisible = true" />
     </div>
     <pv-data-table :value="sites" stripedRows style="width: 100%">
       <pv-column field="id" header="ID" />
@@ -39,16 +44,17 @@ onMounted(() => {
       </pv-column>
     </pv-data-table>
   </div>
+  <CreateSiteForm v-model:visible="dialogVisible" :organization-id="orgStore.selectedOrganizationId" @created="refreshSites" />
 </template>
 
 <style scoped>
 .sites-view {
   padding: 0.5rem 3rem;
 }
-.filter-bar {
+.sites-header {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  justify-content: space-between;
   margin-bottom: 1rem;
 }
 .sites-view :deep(.p-datatable) {
